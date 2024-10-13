@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using GameDevLabirinth;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This script defines 'Enemy's' health and behavior. 
-/// </summary>
-public class Enemy : MonoBehaviour {
-
+public class Enemy : MonoBehaviour
+{
     #region FIELDS
     [Tooltip("Health points in integer")]
     public int health;
@@ -17,36 +15,40 @@ public class Enemy : MonoBehaviour {
     [Tooltip("VFX prefab generating after destruction")]
     public GameObject destructionVFX;
     public GameObject hitEffect;
-    
-    [HideInInspector] public int shotChance; //probability of 'Enemy's' shooting during tha path
-    [HideInInspector] public float shotTimeMin, shotTimeMax; //max and min time for shooting from the beginning of the path
+
+    [HideInInspector] public int shotChance; // Probability of shooting
+    [HideInInspector] public float shotTimeMin, shotTimeMax; // Shooting time range
     #endregion
+
+    private GameManager gameManager; // Ссылка на GameManager
 
     private void Start()
     {
+        // Находим GameManager в сцене
+        gameManager = FindObjectOfType<GameManager>();
+
+        // Планируем стрельбу
         Invoke("ActivateShooting", Random.Range(shotTimeMin, shotTimeMax));
     }
 
-    //coroutine making a shot
-    void ActivateShooting() 
+    void ActivateShooting()
     {
-        if (Random.value < (float)shotChance / 100)                             //if random value less than shot probability, making a shot
-        {                         
-            Instantiate(Projectile,  gameObject.transform.position, Quaternion.identity);             
+        if (Random.value < (float)shotChance / 100)
+        {
+            Instantiate(Projectile, gameObject.transform.position, Quaternion.identity);
         }
     }
 
-    //method of getting damage for the 'Enemy'
-    public void GetDamage(int damage) 
+    public void GetDamage(int damage)
     {
-        health -= damage;           //reducing health for damage value, if health is less than 0, starting destruction procedure
-        if (health <= 0)
-            Destruction();
-        else
-            Instantiate(hitEffect,transform.position,Quaternion.identity,transform);
-    }    
+        health -= damage; // Уменьшаем здоровье
 
-    //if 'Enemy' collides 'Player', 'Player' gets the damage equal to projectile's damage value
+        if (health <= 0)
+            Destruction(); // Если здоровье <= 0, уничтожаем врага
+        else
+            Instantiate(hitEffect, transform.position, Quaternion.identity, transform);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
@@ -58,10 +60,16 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    //method of destroying the 'Enemy'
-    void Destruction()                           
-    {        
-        Instantiate(destructionVFX, transform.position, Quaternion.identity); 
-        Destroy(gameObject);
+    void Destruction()
+    {
+        // Сообщаем GameManager об уничтожении врага
+        if (gameManager != null)
+        {
+            gameManager.EnemyKilled(); // Увеличиваем счётчик убитых врагов
+        }
+
+        // Визуальные эффекты разрушения
+        Instantiate(destructionVFX, transform.position, Quaternion.identity);
+        Destroy(gameObject); // Уничтожаем объект врага
     }
 }
