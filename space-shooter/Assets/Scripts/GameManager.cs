@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Не забудьте добавить это
+using UnityEngine.SceneManagement; // Для загрузки сцен
+using UnityEngine.UI; // Для работы с UI элементами
 
 public class GameManager : MonoBehaviour
 {
@@ -9,11 +10,19 @@ public class GameManager : MonoBehaviour
     public GameObject winPanel; // Ссылка на объект панели "Вы выиграли"
     public GameObject losePanel; // Ссылка на объект панели "Вы проиграли"
 
+    // Ссылки на кнопки
+    public Button nextLevelButton; // Ссылка на кнопку "Next Level"
+    public Button mainMenuButton; // Ссылка на кнопку "Main Menu"
+
     private void Start()
     {
         // Скрываем панели на старте игры
         winPanel.SetActive(false);
         losePanel.SetActive(false);
+
+        // Убедитесь, что кнопки скрыты в начале игры
+        nextLevelButton.gameObject.SetActive(false);
+        mainMenuButton.gameObject.SetActive(false);
     }
 
     public void EnemyKilled()
@@ -39,6 +48,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("You Win!");
         Time.timeScale = 0f; // Останавливаем время
         winPanel.SetActive(true); // Отображаем панель "Вы выиграли"
+
+        // Скрываем кнопку "Next Level"
+        nextLevelButton.gameObject.SetActive(true); // Показываем кнопку "Next Level"
     }
 
     public void RetryGame()
@@ -50,7 +62,8 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         Time.timeScale = 1f; // Восстанавливаем нормальный ход времени
-        SceneManager.LoadScene("NextLevel"); // Загружаем следующую сцену
+        nextLevelButton.gameObject.SetActive(false); // Скрыть кнопку перед загрузкой следующего уровня
+        SceneManager.LoadScene("Level3"); // Загружаем следующую сцену
     }
 
     // Метод для загрузки главного меню

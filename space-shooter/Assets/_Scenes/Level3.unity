@@ -244,7 +244,7 @@ SpriteRenderer:
   m_SortingLayerID: 1947543829
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e738800b03db37c4b87c268a72d3e142, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0f6cc8efd4264143be63e645705ba4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6094,19 +6094,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 893482611}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1311515213}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LoadNextLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &893482611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6838,11 +6826,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyKillCount: 0
-  killThreshold: 4
+  killThreshold: 10
   winPanel: {fileID: 427468725}
   losePanel: {fileID: 1612655806}
-  nextLevelButton: {fileID: 893482610}
-  mainMenuButton: {fileID: 1232106741}
+  nextLevelButton: {fileID: 0}
+  mainMenuButton: {fileID: 0}
 --- !u!4 &1311515214
 Transform:
   m_ObjectHideFlags: 0
@@ -7073,7 +7061,7 @@ SpriteRenderer:
   m_SortingLayerID: 1947543829
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e738800b03db37c4b87c268a72d3e142, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0f6cc8efd4264143be63e645705ba4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7463,7 +7451,7 @@ SpriteRenderer:
   m_SortingLayerID: 1947543829
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e738800b03db37c4b87c268a72d3e142, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0f6cc8efd4264143be63e645705ba4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7812,7 +7800,7 @@ SpriteRenderer:
   m_SortingLayerID: 1947543829
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e738800b03db37c4b87c268a72d3e142, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0f6cc8efd4264143be63e645705ba4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

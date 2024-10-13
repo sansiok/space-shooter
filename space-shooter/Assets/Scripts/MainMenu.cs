@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Правильное написание
+using UnityEngine.SceneManagement;
 
 namespace GameDevLabirinth
 {
@@ -16,7 +16,13 @@ namespace GameDevLabirinth
         {
             Application.Quit();
         }
+
+        public void Level2()
+        {
+            SceneManager.LoadScene("Level3"); 
+        }
+
     }
 
-    
+
 }
