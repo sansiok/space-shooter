@@ -1,18 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI; // Для работы с UI элементами
-using UnityEngine.SceneManagement; // Для загрузки следующей сцены
+using UnityEngine.SceneManagement; // Не забудьте добавить это
 
 public class GameManager : MonoBehaviour
 {
     public int enemyKillCount = 0; // Счётчик убитых врагов
-    public int killThreshold = 4;  // Сколько врагов нужно убить для победы
+    public int killThreshold = 4;   // Сколько врагов нужно убить для победы
 
-    public GameObject winPanel; // Ссылка на объект панели (Panel)
+    public GameObject winPanel; // Ссылка на объект панели "Вы выиграли"
+    public GameObject losePanel; // Ссылка на объект панели "Вы проиграли"
 
     private void Start()
     {
-        // Скрываем панель на старте игры
+        // Скрываем панели на старте игры
         winPanel.SetActive(false);
+        losePanel.SetActive(false);
     }
 
     public void EnemyKilled()
@@ -26,24 +27,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PlayerDied()
+    {
+        Debug.Log("You Lose!");
+        Time.timeScale = 0f; // Останавливаем время
+        losePanel.SetActive(true); // Отображаем панель "You Lose"
+    }
+
     void WinGame()
     {
         Debug.Log("You Win!");
-        // Останавливаем время
-        Time.timeScale = 0f;
-
-        // Отображаем панель с текстом и кнопкой
-        winPanel.SetActive(true);
+        Time.timeScale = 0f; // Останавливаем время
+        winPanel.SetActive(true); // Отображаем панель "Вы выиграли"
     }
 
-    // Метод для загрузки следующего уровня
+    public void RetryGame()
+    {
+        Time.timeScale = 1f; // Восстанавливаем нормальный ход времени
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезагружаем текущую сцену
+    }
+
     public void LoadNextLevel()
     {
-        // Восстанавливаем нормальный ход времени
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; // Восстанавливаем нормальный ход времени
+        SceneManager.LoadScene("NextLevel"); // Загружаем следующую сцену
+    }
 
-        // Здесь можно загрузить следующую сцену
-        SceneManager.LoadScene("NextLevel");
+    // Метод для загрузки главного меню
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1f; // Восстанавливаем нормальный ход времени
+        SceneManager.LoadScene("MainMenu"); // Замените "MainMenu" на имя вашей сцены
     }
 }
-
