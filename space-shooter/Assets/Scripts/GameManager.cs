@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject winPanel; // Ссылка на объект панели "Вы выиграли"
     public GameObject losePanel; // Ссылка на объект панели "Вы проиграли"
+    public Text enemyKillText; // Ссылка на текст для отображения количества убитых врагов
 
     // Ссылки на кнопки
     public Button nextLevelButton; // Ссылка на кнопку "Next Level"
@@ -23,12 +24,18 @@ public class GameManager : MonoBehaviour
         // Убедитесь, что кнопки скрыты в начале игры
         nextLevelButton.gameObject.SetActive(false);
         mainMenuButton.gameObject.SetActive(false);
+
+        // Обновляем UI при старте
+        UpdateEnemyKillText();
     }
 
     public void EnemyKilled()
     {
         enemyKillCount++;
         Debug.Log("Enemy killed! Current count: " + enemyKillCount);
+
+        // Обновляем текст с количеством убитых врагов
+        UpdateEnemyKillText();
 
         if (enemyKillCount >= killThreshold)
         {
@@ -49,8 +56,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // Останавливаем время
         winPanel.SetActive(true); // Отображаем панель "Вы выиграли"
 
-        // Скрываем кнопку "Next Level"
-        nextLevelButton.gameObject.SetActive(true); // Показываем кнопку "Next Level"
+        // Показываем кнопку "Next Level"
+        nextLevelButton.gameObject.SetActive(true);
+    }
+
+    // Метод для обновления текста с количеством убитых врагов
+    void UpdateEnemyKillText()
+    {
+        enemyKillText.text = "Enemies killed: " + enemyKillCount + "/" + killThreshold;
     }
 
     public void RetryGame()
@@ -66,7 +79,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level3"); // Загружаем следующую сцену
     }
 
-    // Метод для загрузки главного меню
     public void LoadMainMenu()
     {
         Time.timeScale = 1f; // Восстанавливаем нормальный ход времени

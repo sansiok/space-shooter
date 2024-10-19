@@ -2,34 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-//guns objects in 'Player's' hierarchy
+// Guns objects in 'Player's' hierarchy
 [System.Serializable]
 public class Guns
 {
     public GameObject rightGun, leftGun, centralGun;
-    [HideInInspector] public ParticleSystem leftGunVFX, rightGunVFX, centralGunVFX; 
+    [HideInInspector] public ParticleSystem leftGunVFX, rightGunVFX, centralGunVFX;
 }
 
-public class PlayerShooting : MonoBehaviour {
-
-    [Tooltip("shooting frequency. the higher the more frequent")]
+public class PlayerShooting : MonoBehaviour
+{
+    [Tooltip("Shooting frequency. The higher, the more frequent")]
     public float fireRate;
 
-    [Tooltip("projectile prefab")]
+    [Tooltip("Projectile prefab")]
     public GameObject projectileObject;
 
-    //time for a new shot
+    [Tooltip("Sound clip for shooting")]
+    public AudioClip shootSound; // Звук выстрела
+
+    private AudioSource audioSource; // Источник звука
+
+    // Time for a new shot
     [HideInInspector] public float nextFire;
 
-
-    [Tooltip("current weapon power")]
-    [Range(1, 4)]       //change it if you wish
-    public int weaponPower = 1; 
+    [Tooltip("Current weapon power")]
+    [Range(1, 4)]       // Change it if you wish
+    public int weaponPower = 1;
 
     public Guns guns;
-    bool shootingIsActive = true; 
-    [HideInInspector] public int maxweaponPower = 4; 
+    bool shootingIsActive = true;
+    [HideInInspector] public int maxweaponPower = 4;
     public static PlayerShooting instance;
 
     private void Awake()
@@ -37,9 +40,13 @@ public class PlayerShooting : MonoBehaviour {
         if (instance == null)
             instance = this;
     }
+
     private void Start()
     {
-        //receiving shooting visual effects components
+        // Получаем компонент AudioSource на игроке
+        audioSource = GetComponent<AudioSource>();
+
+        // Receiving shooting visual effects components
         guns.leftGunVFX = guns.leftGun.GetComponent<ParticleSystem>();
         guns.rightGunVFX = guns.rightGun.GetComponent<ParticleSystem>();
         guns.centralGunVFX = guns.centralGun.GetComponent<ParticleSystem>();
@@ -51,16 +58,19 @@ public class PlayerShooting : MonoBehaviour {
         {
             if (Time.time > nextFire)
             {
-                MakeAShot();                                                         
+                MakeAShot();
                 nextFire = Time.time + 1 / fireRate;
             }
         }
     }
 
-    //method for a shot
-    void MakeAShot() 
+    // Method for a shot
+    void MakeAShot()
     {
-        switch (weaponPower) // according to weapon power 'pooling' the defined anount of projectiles, on the defined position, in the defined rotation
+        // Проигрываем звук выстрела
+        PlayShootSound();
+
+        switch (weaponPower) // According to weapon power, 'pooling' the defined amount of projectiles on the defined position and rotation
         {
             case 1:
                 CreateLazerShot(projectileObject, guns.centralGun.transform.position, Vector3.zero);
@@ -91,7 +101,16 @@ public class PlayerShooting : MonoBehaviour {
         }
     }
 
-    void CreateLazerShot(GameObject lazer, Vector3 pos, Vector3 rot) //translating 'pooled' lazer shot to the defined position in the defined rotation
+    // Проигрывание звука выстрела
+    void PlayShootSound()
+    {
+        if (shootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSound); // Проигрываем звук выстрела
+        }
+    }
+
+    void CreateLazerShot(GameObject lazer, Vector3 pos, Vector3 rot) // Translating 'pooled' lazer shot to the defined position in the defined rotation
     {
         Instantiate(lazer, pos, Quaternion.Euler(rot));
     }
